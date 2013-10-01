@@ -2,7 +2,6 @@
 
 package com.mugimugi.hantu;
 
-import Entity.Player;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -14,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mugimugi.entity.Player;
 
 public class Game implements ApplicationListener {
 	private OrthographicCamera camera;
