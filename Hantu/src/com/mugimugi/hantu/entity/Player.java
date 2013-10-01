@@ -1,3 +1,5 @@
+//player
+
 package com.mugimugi.hantu.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
