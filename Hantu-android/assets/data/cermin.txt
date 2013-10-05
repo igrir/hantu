@@ -1,0 +1,18 @@
+cermin.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+miror2
+  rotate: false
+  xy: 2, 2
+  size: 239, 349
+  orig: 239, 349
+  offset: 0, 0
+  index: -1
+miror1
+  rotate: false
+  xy: 243, 2
+  size: 239, 323
+  orig: 239, 323
+  offset: 0, 0
+  index: -1

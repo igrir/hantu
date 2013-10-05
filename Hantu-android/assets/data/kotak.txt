@@ -1,0 +1,18 @@
+kotak.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+box1
+  rotate: false
+  xy: 2, 2
+  size: 267, 175
+  orig: 267, 175
+  offset: 0, 0
+  index: -1
+box2
+  rotate: false
+  xy: 2, 179
+  size: 267, 134
+  orig: 267, 134
+  offset: 0, 0
+  index: -1

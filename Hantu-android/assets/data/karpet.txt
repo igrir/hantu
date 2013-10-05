@@ -1,0 +1,18 @@
+karpet.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+carpet1
+  rotate: false
+  xy: 2, 212
+  size: 485, 194
+  orig: 485, 194
+  offset: 0, 0
+  index: -1
+carpet2
+  rotate: false
+  xy: 2, 2
+  size: 485, 208
+  orig: 485, 208
+  offset: 0, 0
+  index: -1

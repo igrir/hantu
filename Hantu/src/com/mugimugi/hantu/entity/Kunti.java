@@ -1,11 +1,11 @@
-//player
+//tutuyulan
 
 package com.mugimugi.hantu.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class Player extends Character{
-	public Player(TextureRegion textureRegion) {
+public class Kunti extends Character {
+	public Kunti(TextureRegion textureRegion) {
 		super(textureRegion);
 	}
 }

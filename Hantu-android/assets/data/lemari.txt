@@ -1,0 +1,11 @@
+lemari.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+cupboard
+  rotate: false
+  xy: 2, 2
+  size: 337, 493
+  orig: 337, 493
+  offset: 0, 0
+  index: -1

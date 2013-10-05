@@ -1,0 +1,32 @@
+kursi.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+chair1
+  rotate: false
+  xy: 2, 2
+  size: 228, 185
+  orig: 228, 185
+  offset: 0, 0
+  index: -1
+chair2
+  rotate: false
+  xy: 2, 189
+  size: 205, 218
+  orig: 205, 218
+  offset: 0, 0
+  index: -1
+chair4
+  rotate: false
+  xy: 2, 409
+  size: 205, 199
+  orig: 205, 199
+  offset: 0, 0
+  index: -1
+chair3
+  rotate: false
+  xy: 2, 610
+  size: 205, 196
+  orig: 205, 196
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,25 @@
+lukisan.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pic2
+  rotate: false
+  xy: 2, 588
+  size: 204, 291
+  orig: 204, 291
+  offset: 0, 0
+  index: -1
+pic3
+  rotate: false
+  xy: 2, 2
+  size: 205, 291
+  orig: 205, 291
+  offset: 0, 0
+  index: -1
+pic1
+  rotate: false
+  xy: 2, 295
+  size: 205, 291
+  orig: 205, 291
+  offset: 0, 0
+  index: -1

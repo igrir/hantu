@@ -1,0 +1,60 @@
+kunti.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+kuntiback
+  rotate: false
+  xy: 719, 348
+  size: 236, 342
+  orig: 236, 342
+  offset: 0, 0
+  index: -1
+angryleft
+  rotate: false
+  xy: 2, 389
+  size: 236, 385
+  orig: 236, 385
+  offset: 0, 0
+  index: -1
+kuntileft
+  rotate: false
+  xy: 719, 2
+  size: 236, 344
+  orig: 236, 344
+  offset: 0, 0
+  index: -1
+kuntifront
+  rotate: false
+  xy: 481, 348
+  size: 236, 342
+  orig: 236, 342
+  offset: 0, 0
+  index: -1
+angryback
+  rotate: false
+  xy: 240, 2
+  size: 239, 384
+  orig: 239, 384
+  offset: 0, 0
+  index: -1
+angryfront
+  rotate: false
+  xy: 240, 388
+  size: 239, 381
+  orig: 239, 381
+  offset: 0, 0
+  index: -1
+angryright
+  rotate: false
+  xy: 2, 2
+  size: 236, 385
+  orig: 236, 385
+  offset: 0, 0
+  index: -1
+kuntiright
+  rotate: false
+  xy: 481, 2
+  size: 236, 344
+  orig: 236, 344
+  offset: 0, 0
+  index: -1

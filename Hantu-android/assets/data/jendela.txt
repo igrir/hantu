@@ -1,0 +1,25 @@
+jendela.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+window2
+  rotate: false
+  xy: 275, 2
+  size: 271, 252
+  orig: 271, 252
+  offset: 0, 0
+  index: -1
+window3
+  rotate: false
+  xy: 2, 2
+  size: 271, 252
+  orig: 271, 252
+  offset: 0, 0
+  index: -1
+window1
+  rotate: false
+  xy: 548, 2
+  size: 271, 252
+  orig: 271, 252
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,18 @@
+tileori.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+tileori
+  rotate: false
+  xy: 2, 2
+  size: 128, 128
+  orig: 256, 256
+  offset: 2, 126
+  index: -1
+emptytiles
+  rotate: false
+  xy: 2, 132
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1

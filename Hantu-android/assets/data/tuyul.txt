@@ -1,0 +1,11 @@
+tuyul.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pocong 10
+  rotate: false
+  xy: 2, 2
+  size: 146, 200
+  orig: 146, 200
+  offset: 0, 0
+  index: -1

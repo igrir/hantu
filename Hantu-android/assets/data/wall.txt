@@ -1,0 +1,11 @@
+wall.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+wall
+  rotate: false
+  xy: 2, 2
+  size: 302, 180
+  orig: 302, 180
+  offset: 0, 0
+  index: -1
