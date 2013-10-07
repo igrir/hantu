@@ -4,6 +4,9 @@ package com.mugimugi.hantu;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -16,7 +19,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Timer;
 import com.mugimugi.hantu.entity.Cermin;
 import com.mugimugi.hantu.entity.Darktile;
 import com.mugimugi.hantu.entity.Door;
@@ -30,12 +32,14 @@ import com.mugimugi.hantu.entity.Lemari;
 import com.mugimugi.hantu.entity.Lukisan;
 import com.mugimugi.hantu.entity.Player;
 import com.mugimugi.hantu.entity.Relic;
+import com.mugimugi.hantu.entity.Senter;
 import com.mugimugi.hantu.entity.Sidepillar;
 import com.mugimugi.hantu.entity.Tuyul;
 import com.mugimugi.hantu.entity.Wall;
 import com.mugimugi.hantu.entity.Web;
 
-public class Game implements ApplicationListener {
+public class Game implements ApplicationListener, InputProcessor{
+	
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private Player player;
@@ -46,6 +50,7 @@ public class Game implements ApplicationListener {
 	private Lemari lemari;
 	private Lukisan lukisan;
 	private Door door;
+	private Senter senter;
 	public ArrayList<Darktile> darktileList = new ArrayList<Darktile>();
 	public ArrayList<Sidepillar> pillarList = new ArrayList<Sidepillar>();
 	public ArrayList<Wall> wallList = new ArrayList<Wall>();
@@ -59,15 +64,18 @@ public class Game implements ApplicationListener {
 	//Ukuran world
 	private float w = 1440;
 	private float h = 1080;
-	private float time = 0;
+	private float time = 1;
+	private float frame = 0;
+	Vector3 touchPos = new Vector3();
 	
 	//sprite sheet besar. disini ditampung texture keseluruhan
-	private TextureAtlas doorTextureAtlas, webTextureAtlas, darktileTextureAtlas, pillarTextureAtlas, wallTextureAtlas, lantaiTextureAtlas, playerTextureAtlas, kuntiTextureAtlas, tuyulTextureAtlas, relicTextureAtlas, cerminTextureAtlas, jendelaTextureAtlas, karpetTextureAtlas, kotakTextureAtlas, kursiTextureAtlas, lemariTextureAtlas, lukisanTextureAtlas;
-	private TextureRegion doorTextureRegion, darktileTextureRegion, pillarTextureRegion, wallTextureRegion, playerTextureRegion, tuyulTextureRegion, lemariTextureRegion;
+	private TextureAtlas senterTextureAtlas, doorTextureAtlas, webTextureAtlas, darktileTextureAtlas, pillarTextureAtlas, wallTextureAtlas, lantaiTextureAtlas, playerTextureAtlas, kuntiTextureAtlas, tuyulTextureAtlas, relicTextureAtlas, cerminTextureAtlas, jendelaTextureAtlas, karpetTextureAtlas, kotakTextureAtlas, kursiTextureAtlas, lemariTextureAtlas, lukisanTextureAtlas;
+	private TextureRegion senterTextureRegion, doorTextureRegion, darktileTextureRegion, pillarTextureRegion, wallTextureRegion, playerTextureRegion, tuyulTextureRegion, lemariTextureRegion;
 	private TextureRegion[] lantaiTextureRegion, kuntiTextureRegion, kotakTextureRegion, relicTextureRegion, karpetTextureRegion, kursiTextureRegion, cerminTextureRegion, lukisanTextureRegion, webTextureRegion, jendelaTextureRegion;
 	
 	@Override
 	public void create() {		
+		Gdx.input.setInputProcessor(this);
 		
 		//camera
 		camera = new OrthographicCamera(w, h);
@@ -186,15 +194,6 @@ public class Game implements ApplicationListener {
 			jendelaList.add(jendela);
 		}
 		
-		playerTextureAtlas = new TextureAtlas("data/tile.txt");
-		//membuat gambar player
-		playerTextureRegion = playerTextureAtlas.findRegion("tile");	//ini dummy. Nanti diganti jadi orang
-		
-		//membuat sprite player
-		player = new Player(playerTextureRegion);
-		player.setSize(45f, 45f);
-		player.setPosition(0-player.getWidth(), 0-player.getWidth()); //posisikan di tengah kamera
-		
 		kuntiTextureAtlas = new TextureAtlas("data/kunti.txt");
 		kuntiTextureRegion = new TextureRegion[8];
 		kuntiTextureRegion[0] = kuntiTextureAtlas.findRegion("kuntiback");
@@ -209,16 +208,31 @@ public class Game implements ApplicationListener {
 		kunti = new Kunti(kuntiTextureRegion[1]);
 		kunti.setSize(90f, 120f);
 		kunti.setPosition(0, 0);
+		kunti.setRectangle(kunti.getX(), kunti.getY(), kunti.getWidth(), kunti.getHeight());
+		
+		playerTextureAtlas = new TextureAtlas("data/tile.txt");
+		playerTextureRegion = playerTextureAtlas.findRegion("tile");	//ini dummy. Nanti diganti jadi orang
+		player = new Player(kuntiTextureRegion[5]);
+		player.setSize(45f, 45f);
+		player.setPosition(0-player.getWidth()/2, 0-player.getWidth()/2); //posisikan di tengah kamera
+		player.setRectangle(player.getX(), player.getY(), player.getWidth(), player.getHeight());
+		
+		senterTextureAtlas = new TextureAtlas("data/senter.txt");
+		senterTextureRegion = senterTextureAtlas.findRegion("light");
+		
+		senter = new Senter(senterTextureRegion);
+		senter.setSize(150f, 250f);
+		senter.setPosition((player.getX()+player.getWidth()/2)-(senter.getWidth()/2), (player.getY()+player.getHeight()/2)-senter.getHeight());
+		senter.setRectangle(senter.getX(), senter.getY(), senter.getWidth(), senter.getHeight()/2);
 		
 		tuyulTextureAtlas = new TextureAtlas("data/tuyul.txt");
-		//membuat gambar tuyul
 		tuyulTextureRegion = tuyulTextureAtlas.findRegion("pocong 10"); //dummy juga, buat tuyul
 		
-		//membuat sprite tuyul dan posisinya
 		for(int i=0;i<3;i++) {
             Tuyul tuyul = new Tuyul(kuntiTextureRegion[5]);
             tuyul.setSize(90f, 90f);
             tuyul.setPosisiAcak();
+            tuyul.setRectangle(tuyul.getX(), tuyul.getY(), tuyul.getWidth(), tuyul.getHeight());
             tuyulList.add(tuyul);
         }
 		
@@ -230,8 +244,8 @@ public class Game implements ApplicationListener {
 			Relic relic = new Relic(relicTextureRegion[0]);
 			relic.setSize(50f, 50f);
 			relic.setPosisiAcak(i);
+			relic.setRectangle(relic.getX(), relic.getY(), relic.getWidth(), relic.getHeight());
 			relicList.add(relic);
-			//System.out.println(relic.getX() +" "+ relic.getY());
 		}
 		
 		jendelaTextureAtlas = new TextureAtlas("data/jendela.txt");
@@ -334,12 +348,31 @@ public class Game implements ApplicationListener {
 		darktileTextureAtlas.dispose();
 		webTextureAtlas.dispose();
 		doorTextureAtlas.dispose();
+		senterTextureAtlas.dispose();
 	}
 	
-	public void updatePosisi(){
-		//update posisi
+	public void updatePosisiPlayer(){
+		if (Gdx.input.isTouched()) {
+			if(touchPos.x > player.getX()){
+				player.setX(player.getX()+player.getSpeed()*Gdx.graphics.getDeltaTime());
+			}else if(touchPos.x < player.getX()){
+				player.setX(player.getX()-player.getSpeed()*Gdx.graphics.getDeltaTime());
+			}
+			if(touchPos.y > player.getY()){
+				player.setY(player.getY()+player.getSpeed()*Gdx.graphics.getDeltaTime());
+			}else if(touchPos.y < player.getY()){
+				player.setY(player.getY()-player.getSpeed()*Gdx.graphics.getDeltaTime());
+			}
+			player.setRectangle(player.getX(), player.getY(), player.getWidth(), player.getHeight());
+			senter.setPosition((player.getX()+player.getWidth()/2)-(senter.getWidth()/2), (player.getY()+player.getHeight()/2)-senter.getHeight());
+			senter.setRectangle(senter.getX(), senter.getY(), senter.getWidth(), senter.getHeight()/2);
+		}
+	}
+
+	public void updatePosisiTuyul(){
 		for (Tuyul tuyul : tuyulList) { //iterate through arraylist
 			tuyul.setPosition(tuyul.getX(), tuyul.getY());
+			tuyul.setRectangle(tuyul.getX(), tuyul.getY(), tuyul.getWidth(), tuyul.getHeight());
 			
 			int status = 0;
 			
@@ -393,13 +426,84 @@ public class Game implements ApplicationListener {
 	 			tuyul.setPosisiAcak();
 	 		}
 		}
-		if(time >= 120){
-			kunti.setPosition(kunti.getX(), kunti.getY());
-			kunti.setX(kunti.getX() - 100*Gdx.graphics.getDeltaTime());
-			
-			if(kunti.getX() < (-w/2)+(kunti.getWidth()/2)){
-				kunti.setX((w/2)-(kunti.getWidth()/2));
+	}
+	
+	public void updatePosisiKunti(){
+		if(player.getX()+(player.getWidth()/2) > kunti.getX()+(kunti.getWidth()/2)){
+			kunti.setX(kunti.getX()+kunti.getSpeed()*Gdx.graphics.getDeltaTime());
+		}else if(player.getX()+(player.getWidth()/2) < kunti.getX()+(kunti.getWidth()/2)){
+			kunti.setX(kunti.getX()-kunti.getSpeed()*Gdx.graphics.getDeltaTime());
+		}
+		if(player.getY() > kunti.getY()){
+			kunti.setY(kunti.getY()+kunti.getSpeed()*Gdx.graphics.getDeltaTime());
+		}else if(player.getY() < kunti.getY()){
+			kunti.setY(kunti.getY()-kunti.getSpeed()*Gdx.graphics.getDeltaTime());
+		}
+		kunti.setRectangle(kunti.getX(), kunti.getY(), kunti.getWidth(), kunti.getHeight());
+		
+//		if(kunti.getX() < (-w/2)+(kunti.getWidth()/2)){
+//			kunti.setX((w/2)-(kunti.getWidth()/2));
+//		}
+	}
+	
+	public void updateCollision(){
+		if(kunti.getRectangle().overlaps(player.getRectangle())){
+			player.setHealth(player.getHealth()-kunti.getAtk());
+			//System.out.println(player.getHealth());
+		}
+		if(senter.getRectangle().overlaps(kunti.getRectangle())){
+			kunti.setHealth(kunti.getHealth()-player.getAtk());
+			if(kunti.getHealth() > 0){
+				kunti.setPosition(kunti.getX()-((senter.getX()+(senter.getWidth()/2))-kunti.getX()), kunti.getY()-(senter.getY()-kunti.getY()));
+			//System.out.println("andai");
 			}
+		}
+		for(Relic relic : relicList){
+			if(player.getRectangle().overlaps(relic.getRectangle())){
+				relic.setIsFound(true);
+				System.out.println("Relic Found !!");
+			}
+			if(kunti.getRectangle().overlaps(relic.getRectangle()) && relic.getIsFound() == true){
+				kunti.setHealth(kunti.getHealth()-relic.getAtk());
+				kunti.setStabbed(kunti.getStabbed()+1);
+				System.out.println("Stabbed !!");
+				relic.setIsDestroyed(true);
+				relic.remove();
+			}
+		}
+		for (Tuyul tuyul : tuyulList) { //iterate through arraylist
+			if(tuyul.getRectangle().overlaps(senter.getRectangle())){
+				tuyul.setHealth(tuyul.getHealth()-player.getAtk());
+				//System.out.println(tuyul.getHealth());
+			}
+			if(tuyul.getRectangle().overlaps(player.getRectangle())){
+				player.setHealth(player.getHealth()-tuyul.getAtk());
+//				System.out.println(player.getHealth());
+			}
+		}
+	}
+	
+	public void updateDeath(){
+		for(Tuyul tuyul : tuyulList) {
+			if(tuyul.getHealth() <= 0 && tuyul.getIsKilled() == false){
+				tuyul.setIsKilled(true);
+				tuyul.remove();
+				System.out.println("Tuyul Killed !!");
+				tuyul.respawnTuyul();
+			}
+		}
+		if(player.getHealth() <= 0){
+			player.setIsKilled(true);
+			player.remove();
+			senter.remove();
+			System.out.println("Kalah");
+			//Kalah
+		}
+		if(kunti.getStabbed() == 3){
+			kunti.setIsKilled(true);
+			kunti.remove();
+			System.out.println("Menang");
+			//Menang
 		}
 	}
 	
@@ -407,7 +511,12 @@ public class Game implements ApplicationListener {
 	public void render() {		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		updatePosisi();
+		
+		updatePosisiPlayer();
+		updatePosisiTuyul();
+		updateCollision();
+		updateDeath();
+		
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		
@@ -435,25 +544,33 @@ public class Game implements ApplicationListener {
 			kotak.draw(batch);
 		}
 		for(Relic relic : relicList){
-			relic.draw(batch);
+			if(relic.getIsDestroyed() == false){
+				relic.draw(batch);
+			}
 		}
 		for(Tuyul tuyul : tuyulList) {
-			Color c = tuyul.getColor();
-            tuyul.setColor(c.r, c.g, c.b, .5f);
-			tuyul.draw(batch);
+//			Color c = tuyul.getColor();
+//          tuyul.setColor(c.r, c.g, c.b, .5f);
+			if(tuyul.getIsKilled() == false){
+				tuyul.draw(batch);
+			}
 		}
 		kursi.draw(batch);
 		lemari.draw(batch);
-		if(time >= 120){
+		if(frame >= kunti.getMuncul()){
 			kunti.draw(batch);
+			updatePosisiKunti();
 		}
-		else{
-			time += Gdx.app.getGraphics().getDeltaTime();
+		frame += Gdx.app.getGraphics().getDeltaTime();
+		if(frame >= time){
+			time++;
+			System.out.println(time);
 		}
 		player.draw(batch);
 		for(Web web : webList){
 			web.draw(batch);
 		}
+		senter.draw(batch);
 		
 		batch.end();
 	}
@@ -468,5 +585,75 @@ public class Game implements ApplicationListener {
 
 	@Override
 	public void resume() {
+	}
+	
+//	public void animation(){
+//		stateTime = stateTime + Gdx.graphics.getDeltaTime();
+//		
+//		//animasi berdasarkan arah posisi
+//		if (position == 0) {
+//			karakterTR = walkleftAnimation.getKeyFrame(stateTime, true);
+//		}else if (position == 1) {
+//			System.out.println("ke kanan");
+//			karakterTR = walkrightAnimation.getKeyFrame(stateTime, true);
+//		}
+//		
+//		
+//		System.out.println(stateTime);
+//
+//		
+//		karakter.setRegion(karakterTR);
+//	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		touchPos.set(screenX, screenY, 0);
+		camera.unproject(touchPos);
+		
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

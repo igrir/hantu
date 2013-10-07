@@ -1,0 +1,11 @@
+senter.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+light
+  rotate: true
+  xy: 2, 2
+  size: 529, 351
+  orig: 529, 351
+  offset: 0, 0
+  index: -1

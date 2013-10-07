@@ -10,6 +10,8 @@ public class Tuyul extends Character{
 	
 	public Tuyul(TextureRegion textureRegion) {
 		super(textureRegion);
+		float hp = MathUtils.random(50, 100);
+ 		setHealth(hp);
 	}
 	
 	public void setTrayek(int trayek){
@@ -54,12 +56,21 @@ public class Tuyul extends Character{
  		
  		trayek = acak;
  		
- 		float velo = MathUtils.random(40, 80);
- 		int hp = MathUtils.random(200, 300);
- 		int serang = MathUtils.random(50, 70);
+ 		float velo = MathUtils.random(40, 60);
+ 		float serang = MathUtils.random(0.4f, 0.5f);
  		
  		setSpeed(velo);
- 		setHealth(hp);
  		setAtk(serang);
+	}
+	
+	public void respawnTuyul(){
+		if(MathUtils.random(1) == 0){
+			setIsKilled(false);
+			float hp = MathUtils.random(50, 100);
+	 		setHealth(hp);
+			setPosisiAcak();
+			setSize(90f, 90f);
+			setRectangle(getX(), getY(), getWidth(), getHeight());
+		}
 	}
 }
